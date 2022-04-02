@@ -69,6 +69,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d(TAG, "onSuccess: latitude " + geoPoint.getLatitude());
                     Log.d(TAG, "onSuccess: latitude " + geoPoint.getLongitude());
                     mUserPosition.setGeoPoint(geoPoint);
+//                    setCameraView();
                 }
             }
         });
@@ -130,8 +131,6 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         map.setMyLocationEnabled(true);
         mGoogleMap = map;
-        Log.d(TAG, "onMapReady: Map ready");
-        setCameraView();
     }
 
     @Override
