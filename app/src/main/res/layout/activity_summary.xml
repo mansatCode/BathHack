@@ -24,7 +24,7 @@
     <!--    Summary    -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/summary_container"
-        android:layout_width="160dp"
+        android:layout_width="180dp"
         android:layout_height="280dp"
         android:maxHeight="600dp"
         android:maxWidth="400dp"
@@ -34,6 +34,9 @@
         app:layout_constraintTop_toBottomOf="@id/summary_main_heading"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/acoldates_container"
+        app:layout_constraintBottom_toTopOf="@id/summary_image"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="8dp">
 
         <TextView
@@ -52,7 +55,7 @@
         <!--        Time        -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sum_time_container"
-            android:layout_width="140dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/box_with_outline"
             app:layout_constraintTop_toBottomOf="@id/summary_heading"
@@ -89,7 +92,7 @@
         <!--        Hearts        -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sum_hearts_container"
-            android:layout_width="140dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/box_with_outline"
             app:layout_constraintTop_toBottomOf="@id/sum_time_container"
@@ -126,7 +129,7 @@
         <!--        Coins        -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sum_coin_container"
-            android:layout_width="140dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/box_with_outline"
             app:layout_constraintTop_toBottomOf="@id/sum_hearts_container"
@@ -163,7 +166,7 @@
         <!--        Hazard        -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sum_hazard_container"
-            android:layout_width="140dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/box_with_outline"
             app:layout_constraintTop_toBottomOf="@id/sum_coin_container"
@@ -199,7 +202,7 @@
         <!--        Distance        -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sum_distance_container"
-            android:layout_width="140dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/box_with_outline"
             app:layout_constraintTop_toBottomOf="@id/sum_hazard_container"
@@ -246,7 +249,8 @@
 
         app:layout_constraintTop_toBottomOf="@id/summary_main_heading"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/summary_container">
+        app:layout_constraintLeft_toRightOf="@id/summary_container"
+        app:layout_constraintBottom_toTopOf="@id/summary_image">
 
         <TextView
             android:id="@+id/acolades_title"
@@ -254,8 +258,8 @@
             android:layout_height="wrap_content"
             android:text="@string/summary_acolades_heading"
             android:textSize="25sp"
-            android:textColor="@color/dark_white"
-            android:layout_marginTop="10dp"
+            android:textColor="@color/dark_blue"
+            android:layout_marginTop="15dp"
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -426,10 +430,78 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
+        android:id="@+id/summary_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_summary_image"
+        android:contentDescription="celebration"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="35dp"
+        android:layout_marginBottom="35dp"/>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rowCount="3"
+        android:columnCount="1"
+        
+        app:layout_constraintRight_toRightOf="@id/acoldates_container"
+        app:layout_constraintTop_toBottomOf="@id/summary_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp">
+
+        <!--        Share        -->
+        <FrameLayout
+            android:id="@+id/summary_share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_with_outline">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/summary_share"
+                android:contentDescription="share"
+                android:layout_margin="13dp"/>
+        </FrameLayout>
+
+        <!--        Replay        -->
+        <FrameLayout
+            android:id="@+id/summary_replay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_with_outline"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/summary_reload"
+                android:contentDescription="replay" 
+                android:layout_margin="13dp"/>
+        </FrameLayout>
+
+        <!--        Home        -->
+        <FrameLayout
+            android:id="@+id/summary_home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_with_outline"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/summary_home"
+                android:contentDescription="home"
+                android:layout_margin="13dp"/>
+        </FrameLayout>
+
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showInstructions() {
-        Intent intent = new Intent(MainActivity.this, InstructionsActivity.class);
+        Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
         startActivity(intent);
     }
 
