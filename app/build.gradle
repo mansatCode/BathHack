@@ -44,5 +44,8 @@ dependencies {
 
     // Google Map Dependency
     implementation 'com.google.maps.android:android-maps-utils:2.3.0'
-    implementation 'com.eightbitlab:blurview:1.6.6'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    // Firestore Firestore
+    implementation 'com.google.firebase:firebase-firestore:24.1.0'
 }
