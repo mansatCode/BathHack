@@ -53,8 +53,6 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         initGoogleMap(savedInstanceState);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        getCurrentLocation();
     }
 
     private void getCurrentLocation() {
@@ -69,7 +67,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d(TAG, "onSuccess: latitude " + geoPoint.getLatitude());
                     Log.d(TAG, "onSuccess: latitude " + geoPoint.getLongitude());
                     mUserPosition.setGeoPoint(geoPoint);
-//                    setCameraView();
+                    setCameraView();
                 }
             }
         });
@@ -131,6 +129,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         map.setMyLocationEnabled(true);
         mGoogleMap = map;
+        getCurrentLocation();
     }
 
     @Override
