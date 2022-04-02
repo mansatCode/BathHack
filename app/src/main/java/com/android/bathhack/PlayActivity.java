@@ -11,6 +11,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.android.bathhack.models.UserLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,6 +41,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private MapView mMapView;
     private GoogleMap mGoogleMap;
+    private TextView popupImage, popupText, time, coins, hearts;
 
     // Variables
     private LatLngBounds mMapBoundary;
@@ -46,6 +50,11 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Set to full screen (remove status bar)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
@@ -75,6 +84,11 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void initUI() {
         mMapView = (MapView) findViewById(R.id.activity_play_mv_map);
+        popupImage = findViewById(R.id.popup_image);
+        popupText = findViewById(R.id.popup_text);
+        coins = findViewById(R.id.coin_text);
+        hearts = findViewById(R.id.heart_text);
+        time = findViewById(R.id.time_text);
     }
 
     private void initGoogleMap(Bundle savedInstanceState) {
