@@ -11,10 +11,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,13 +27,17 @@ import static com.android.bathhack.util.Constants.ERROR_DIALOG_REQUEST;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Constants
     private static final String TAG = "MainActivity";
 
     // Global UI Components
-
+    private BlurView blurView;
+    private Button startButton;
 
     // Variables
     private boolean mLocationPermissionGranted = false;
@@ -42,6 +49,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initUI();
         setListeners();
+
+        float radius = 25f;
+
+        View decorView = getWindow().getDecorView();
+        //ViewGroup you want to start blur from. Choose root as close to BlurView in hierarchy as possible.
+        ViewGroup rootView = (ViewGroup) decorView.findViewById(R.id.root_view);
+        Drawable windowBackground = decorView.getBackground();
+
+        blurView.setupWith(rootView)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurAlgorithm(new RenderScriptBlur(this))
+                .setBlurRadius(radius)
+                .setBlurAutoUpdate(true)
+                .setHasFixedTransformationMatrix(true);
+
     }
 
     @Override
@@ -58,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initUI() {
-
+        blurView = findViewById(R.id.main_blur_view);
+        startButton = findViewById(R.id.start_game);
     }
 
     private void setListeners() {
