@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BathHack">
         <activity
+            android:name=".SummaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".InstructionsActivity"
             android:exported="false" />
         <activity android:name=".PlayActivity" />

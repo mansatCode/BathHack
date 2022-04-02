@@ -12,4 +12,12 @@
     <string name="instruction_hazard">Steer clear of any hazards that you find!</string>
     <string name="instruction_heart">Run into a hazard, lose a life. Don’t lose them all!</string>
     <string name="instruction_timer">But be quick, time is ticking!</string>
+    <string name="summary_heading">You made it!</string>
+    <string name="summary_summary_heading">Summary</string>
+    <string name="summary_time_text">Finished in 12:51</string>
+    <string name="summary_hearts_text">2 hearts lost</string>
+    <string name="summary_coins_text">15 coins collected</string>
+    <string name="summary_hazard_text">3 hazards avoided</string>
+    <string name="summary_distance_text">0.45km travelled</string>
+    <string name="summary_acolades_heading">Acolades</string>
 </resources>
