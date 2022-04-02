@@ -44,6 +44,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setListeners();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkMapServices()) {
+            if (mLocationPermissionGranted) {
+
+            }
+            else {
+                getLocationPermission();
+            }
+        }
+    }
+
     private void initUI() {
 
     }
