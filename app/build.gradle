@@ -48,4 +48,6 @@ dependencies {
 
     // Firestore Firestore
     implementation 'com.google.firebase:firebase-firestore:24.1.0'
+
+    implementation 'com.google.maps:google-maps-services:2.0.0'
 }
