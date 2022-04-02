@@ -79,6 +79,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5"
+                android:textColor="@color/dark_blue"
+
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -117,6 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
+                android:textColor="@color/dark_blue"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -158,6 +161,7 @@
                 android:layout_height="match_parent"
                 android:padding="20dp"
                 android:layout_margin="20dp"
+                android:textColor="@color/dark_blue"
 
                 app:layout_constraintRight_toLeftOf="@id/popup_image"
                 app:layout_constraintLeft_toLeftOf="parent"

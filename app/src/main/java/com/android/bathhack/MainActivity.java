@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     // Global UI Components
-    private FrameLayout startButton;
+    private FrameLayout startButton, instructionsButton;
 
     // Variables
     private boolean mLocationPermissionGranted = false;
@@ -109,14 +109,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initUI() {
         startButton = findViewById(R.id.start_game);
+        instructionsButton = findViewById(R.id.instructions_button);
     }
 
     private void setListeners() {
         startButton.setOnClickListener(this);
+        instructionsButton.setOnClickListener(this);
     }
 
     private void launchGame() {
         Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+        startActivity(intent);
+    }
+
+    private void showInstructions() {
+        Intent intent = new Intent(MainActivity.this, InstructionsActivity.class);
         startActivity(intent);
     }
 
@@ -125,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.start_game:
                 launchGame();
+                break;
+            case R.id.instructions_button:
+                showInstructions();
                 break;
         }
     }
