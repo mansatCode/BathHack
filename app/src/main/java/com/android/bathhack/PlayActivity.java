@@ -8,7 +8,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Chronometer;
 import android.widget.Toast;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,7 +19,6 @@ import android.widget.TextView;
 import com.android.bathhack.models.LocationModel;
 import com.android.bathhack.models.UserModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -32,7 +33,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,7 +47,8 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private MapView mMapView;
     private GoogleMap mGoogleMap;
-    private TextView popupImage, popupText, time, coins, hearts;
+    private TextView popupImage, popupText, coins, hearts;
+    private Chronometer mChronometer;
 
     // Variables
     private LatLngBounds mMapBoundary;
@@ -63,8 +64,11 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
             Location location = locationResult.getLastLocation();
             Log.d(TAG, "onLocationResult: " + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
             if (location.getLatitude() - mDestination.getLatitude() < 0.001f && location.getLongitude() - mDestination.getLongitude() < 0.001f) {
-                Log.d(TAG, "onLocationResult: You've arrived");
-                Toast.makeText(PlayActivity.this, "Complete", Toast.LENGTH_SHORT).show();
+                pauseChronometer();
+                long duration = SystemClock.elapsedRealtime() - mChronometer.getBase();
+
+                Log.d(TAG, "onLocationResult: Arrived at destination" + String.valueOf(duration/1000) + "s");
+                Toast.makeText(PlayActivity.this, "Arrived at destination in " + String.valueOf(duration/1000) + "s", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -84,11 +88,21 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         initUI();
         initGoogleMap(savedInstanceState);
         insertDummyData();
+        startChronometer();
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         createLocationRequest();
         startLocationUpdates();
+    }
+
+    private void startChronometer() {
+        mChronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer.start();
+    }
+
+    private void pauseChronometer() {
+        mChronometer.stop();
     }
 
     private void insertDummyData() {
@@ -142,7 +156,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         popupText = findViewById(R.id.popup_text);
         coins = findViewById(R.id.coin_text);
         hearts = findViewById(R.id.heart_text);
-        time = findViewById(R.id.time_text);
+        mChronometer = findViewById(R.id.chronometer);
     }
 
     private void initGoogleMap(Bundle savedInstanceState) {
