@@ -6,4 +6,5 @@
     <string name="main_image_content">A man running</string>
     <string name="main_tagline">Step up your game</string>
     <string name="main_app_name">GeoQuest</string>
+    <string name="heart_content_desc">heart</string>
 </resources>
