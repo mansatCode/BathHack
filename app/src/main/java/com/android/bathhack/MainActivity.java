@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,13 +24,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.GeoPoint;
 
 import static com.android.bathhack.util.Constants.ERROR_DIALOG_REQUEST;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
-
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     // Global UI Components
-    private BlurView blurView;
     private Button startButton;
 
     // Variables
     private boolean mLocationPermissionGranted = false;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initUI();
         setListeners();
 
-        float radius = 25f;
-
-        View decorView = getWindow().getDecorView();
-        //ViewGroup you want to start blur from. Choose root as close to BlurView in hierarchy as possible.
-        ViewGroup rootView = (ViewGroup) decorView.findViewById(R.id.root_view);
-        Drawable windowBackground = decorView.getBackground();
-
-        blurView.setupWith(rootView)
-                .setFrameClearDrawable(windowBackground)
-                .setBlurAlgorithm(new RenderScriptBlur(this))
-                .setBlurRadius(radius)
-                .setBlurAutoUpdate(true)
-                .setHasFixedTransformationMatrix(true);
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     @Override
@@ -72,20 +63,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (checkMapServices()) {
             if (mLocationPermissionGranted) {
 
-            }
-            else {
+            } else {
                 getLocationPermission();
             }
         }
     }
 
+    private void getLastKnownLocation() {
+        Log.d(TAG, "getLastKnownLocation: called");
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                if (task.isSuccessful()) {
+                    Location location = task.getResult();
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLatitude());
+                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLongitude());
+                }
+            }
+        });
+    }
+
     private void initUI() {
-        blurView = findViewById(R.id.main_blur_view);
         startButton = findViewById(R.id.start_game);
     }
 
     private void setListeners() {
-
+        startButton.setOnClickListener(this);
     }
 
     private void launchGame() {
@@ -96,9 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id. :
-//                launchGame();
-//                break;
+            case R.id.start_game:
+                launchGame();
+                break;
         }
     }
 
