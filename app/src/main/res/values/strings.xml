@@ -2,4 +2,8 @@
     <string name="app_name">BathHack</string>
     <string name="title_activity_maps">Map</string>
     <string name="main_start">Start</string>
+    <string name="main_instructions">Instructions</string>
+    <string name="main_image_content">A man running</string>
+    <string name="main_tagline">Step up your game</string>
+    <string name="main_app_name">GeoQuest</string>
 </resources>
