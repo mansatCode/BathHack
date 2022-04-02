@@ -2,15 +2,12 @@ package com.android.bathhack.models;
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class UserLocation {
+public class UserModel {
 
     private GeoPoint geoPoint;
 
-    public UserLocation(GeoPoint geoPoint) {
-        this.geoPoint = geoPoint;
-    }
 
-    public UserLocation() {
+    public UserModel() {
     }
 
     public GeoPoint getGeoPoint() {

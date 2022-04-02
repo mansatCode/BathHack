@@ -6,14 +6,18 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.android.bathhack.models.UserLocation;
+import com.android.bathhack.models.LocationModel;
+import com.android.bathhack.models.UserModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,11 +26,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.auth.User;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static com.android.bathhack.util.Constants.MAPVIEW_BUNDLE_KEY;
 
@@ -41,8 +47,25 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     // Variables
     private LatLngBounds mMapBoundary;
-    private UserLocation mUserPosition = new UserLocation();
-    private FusedLocationProviderClient mFusedLocationClient;
+    private UserModel mUserPosition = new UserModel();
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private LocationRequest mLocationRequest;
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(@NonNull LocationResult locationResult) {
+            super.onLocationResult(locationResult);
+
+            // Save the location
+            Location location = locationResult.getLastLocation();
+            Log.d(TAG, "onLocationResult: " + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+            if (location.getLatitude() - mDestination.getLatitude() < 0.001f && location.getLongitude() - mDestination.getLongitude() < 0.001f) {
+                Log.d(TAG, "onLocationResult: You've arrived");
+                Toast.makeText(PlayActivity.this, "Complete", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+    private List<LocationModel> mLocationList = new ArrayList<>();
+    private LocationModel mDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +74,35 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         initUI();
         initGoogleMap(savedInstanceState);
+        insertDummyData();
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        createLocationRequest();
+        startLocationUpdates();
+    }
+
+    private void insertDummyData() {
+        mLocationList.add(new LocationModel("Sports Training Village", 51.377688515670485, -2.324575367443366));
+        mLocationList.add(new LocationModel("The Fresh Co-op",  51.38008470812914, -2.3296487592296486));
+        mLocationList.add(new LocationModel("Polden", 51.38049929698658, -2.3326429905222605));
+        mLocationList.add(new LocationModel("West Car Park", 51.379773368108445,-2.332843823219117));
+        mLocationList.add(new LocationModel("Eastwood", 51.38118940103502,-2.3242811762256546));
+        mLocationList.add(new LocationModel("Eastwood",  51.378361739039256,-2.3282803023977654));
+    }
+
+    private void createLocationRequest() {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(1000 * 30);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
@@ -71,6 +114,17 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+    }
+
+    private void stopLocationUpdates() {
+        mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
     }
 
     private void initUI() {
@@ -104,7 +158,6 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 0));
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -119,7 +172,11 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        Random random = new Random();
+        int i = random.nextInt(mLocationList.size());
+        Log.d(TAG, "onMapReady: random value: " + i);
+        mDestination = mLocationList.get(i);
+        map.addMarker(new MarkerOptions().position(new LatLng(mDestination.getLatitude(), mDestination.getLongitude())).title(mDestination.getLocationName()));
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
@@ -127,6 +184,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         map.setMyLocationEnabled(true);
         mGoogleMap = map;
         getCurrentLocation();
