@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/divider1"
         android:layout_marginTop="60dp"/>
 
     <!--    Divider    -->
@@ -31,6 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/instructions_heading"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/distance_container"
         android:layout_marginTop="11dp"/>
 
     <!--    Distance    -->
@@ -44,7 +46,8 @@
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider1">
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintBottom_toTopOf="@id/divider2">
 
         <ImageView
             android:id="@+id/inst_distance_icon"
@@ -84,6 +87,7 @@
         app:layout_constraintTop_toBottomOf="@id/distance_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/coin_container"
         android:layout_marginTop="11dp"/>
 
     <!--    Coins    -->
@@ -97,7 +101,8 @@
 
         app:layout_constraintTop_toBottomOf="@id/divider2"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/divider3" >
 
         <ImageView
             android:id="@+id/inst_coin_icon"
@@ -108,8 +113,7 @@
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -138,6 +142,7 @@
         app:layout_constraintTop_toBottomOf="@id/coin_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/hazard_container"
         android:layout_marginTop="11dp"/>
 
     <!--    Hazards    -->
@@ -151,7 +156,8 @@
 
         app:layout_constraintTop_toBottomOf="@id/divider3"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/divider4">
 
         <ImageView
             android:id="@+id/inst_hazard_icon"
@@ -191,6 +197,7 @@
         app:layout_constraintTop_toBottomOf="@id/hazard_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/heart_container"
         android:layout_marginTop="11dp"/>
 
     <!--    Hearts    -->
@@ -204,7 +211,8 @@
 
         app:layout_constraintTop_toBottomOf="@id/divider4"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/divider5">
 
         <ImageView
             android:id="@+id/inst_heart_icon"
@@ -245,6 +253,7 @@
         app:layout_constraintTop_toBottomOf="@id/heart_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/time_container"
         android:layout_marginTop="11dp"/>
 
     <!--    Time    -->
@@ -258,7 +267,9 @@
 
         app:layout_constraintTop_toBottomOf="@id/divider5"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp">
 
         <ImageView
             android:id="@+id/inst_timer_icon"
