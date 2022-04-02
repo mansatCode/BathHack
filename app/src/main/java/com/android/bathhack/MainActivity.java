@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     // Global UI Components
-    private Button startButton;
+    private FrameLayout startButton;
 
     // Variables
     private boolean mLocationPermissionGranted = false;
