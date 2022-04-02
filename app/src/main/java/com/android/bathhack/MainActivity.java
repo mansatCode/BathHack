@@ -25,6 +25,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -71,34 +77,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         if (checkMapServices()) {
             if (mLocationPermissionGranted) {
-
+//                getLastKnownLocation();
             } else {
                 getLocationPermission();
             }
         }
     }
 
-    private void getLastKnownLocation() {
-        Log.d(TAG, "getLastKnownLocation: called");
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                if (task.isSuccessful()) {
-                    Location location = task.getResult();
-                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLatitude());
-                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLongitude());
-                }
-            }
-        });
-    }
+//    private void getLastKnownLocation() {
+//        Log.d(TAG, "getLastKnownLocation: called");
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
+//        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Location> task) {
+//                if (task.isSuccessful()) {
+//                    Location location = task.getResult();
+//                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+//                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLatitude());
+//                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLongitude());
+//                }
+//            }
+//        });
+//    }
 
     private void initUI() {
         startButton = findViewById(R.id.start_game);
@@ -141,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
+//            getLastKnownLocation();
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -214,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ENABLE_GPS: {
                 if (mLocationPermissionGranted) {
-
+//                    getLastKnownLocation();
                 } else {
                     getLocationPermission();
                 }
