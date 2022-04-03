@@ -116,11 +116,11 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
 
         //Hearts
         acoladeImgs.get(2).setBackground((summaryModel.getHearts() > 3) ?
-                getResources().getDrawable(R.drawable.acolade_money) :
-                getResources().getDrawable(R.drawable.acolade_broke));
+                getResources().getDrawable(R.drawable.acolade_heart_attack) :
+                getResources().getDrawable(R.drawable.acolade_healthy));
 
         //Placeholders]
-        for (int i = 3; i < 5; i++) acoladeImgs.get(i).setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
+        for (int i = 3; i < 6; i++) acoladeImgs.get(i).setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
 
     }
 
@@ -129,7 +129,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
         heartsTxt.setText(summaryModel.getHearts() + " hearts lost");
         coinsTxt.setText(summaryModel.getCoins() + " coins collected");
         hazardsTxt.setText(summaryModel.getHazards() + " hazards avoided");
-        distanceTxt.setText(summaryModel.getDistance() + "km travelled");
+        distanceTxt.setText(summaryModel.getDistance() + "m travelled");
     }
 
     @Override
@@ -157,33 +157,45 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
                 togglePopup();
                 popupTxt.setText(((summaryModel.getTime() > 30000) ? "You're fast! " : "You can do better than that! ")+
                         "You finished the round in "+summaryModel.getTime());
+                popupImg.setBackground((summaryModel.getTime() > 30000) ?
+                        getResources().getDrawable(R.drawable.acolade_rocket) :
+                        getResources().getDrawable(R.drawable.acolade_snail));
                 break;
             case R.id.acolade_cont2:
                 //TODO show popup for acolade
                 togglePopup();
                 popupTxt.setText(((summaryModel.getCoins() > 15) ? "You're rich! " : "Not the wealthiest, but still the happiest! ")+
                         "You got "+summaryModel.getCoins() + " coins that round");
+                popupImg.setBackground((summaryModel.getCoins() > 15) ?
+                        getResources().getDrawable(R.drawable.acolade_money) :
+                        getResources().getDrawable(R.drawable.acolade_broke));
                 break;
             case R.id.acolade_cont3:
                 //TODO show popup for acolade
                 togglePopup();
                 popupTxt.setText(((summaryModel.getHearts() < 3 ? "Health is wealth! " : "Living life on the edge! ")+
                         "You lost "+summaryModel.getCoins() + " hearts that round"));
+                popupImg.setBackground((summaryModel.getHearts() > 3) ?
+                        getResources().getDrawable(R.drawable.acolade_heart_attack) :
+                        getResources().getDrawable(R.drawable.acolade_healthy));
                 break;
             case R.id.acolade_cont4:
                 //TODO show popup for acolade
                 togglePopup();
                 popupTxt.setText("You didn't get any more acolades this time. Better luck next time!");
+                popupImg.setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
                 break;
             case R.id.acolade_cont5:
                 //TODO show popup for acolade
                 togglePopup();
                 popupTxt.setText("You didn't get any more acolades this time. Better luck next time!");
+                popupImg.setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
                 break;
             case R.id.acolade_cont6:
                 //TODO show popup for acolade
                 togglePopup();
                 popupTxt.setText("You didn't get any more acolades this time. Better luck next time!");
+                popupImg.setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
                 break;
 
             case R.id.summary_popup_container:
