@@ -373,7 +373,6 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/acolade_rocket"
                     android:contentDescription="acolade icon"
 
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -401,7 +400,6 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/acolade_rocket"
                     android:contentDescription="rocket icon"
 
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -430,7 +428,6 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/acolade_rocket"
                     android:contentDescription="rocket icon"
 
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -459,7 +456,6 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/acolade_rocket"
                     android:contentDescription="rocket icon"
 
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -489,7 +485,6 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/acolade_rocket"
                     android:contentDescription="rocket icon"
 
                     app:layout_constraintBottom_toBottomOf="parent"

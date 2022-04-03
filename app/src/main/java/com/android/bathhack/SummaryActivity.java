@@ -34,7 +34,6 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     // Variables
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
-    private SummaryModel summaryModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +50,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
 
         initUI();
         setListeners();
+        setSummary(summaryModel);
         setAcolades(summaryModel);
     }
 
@@ -96,7 +96,6 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void setAcolades(SummaryModel summaryModel) {
-        this.summaryModel = summaryModel;
         //TODO use method when calling this activity from playActivity
         //Speed
         acoladeImgs.get(0).setBackground((summaryModel.getTime() > 30000) ?
@@ -112,6 +111,14 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
         acoladeImgs.get(2).setBackground((summaryModel.getHearts() > 3) ?
                 getResources().getDrawable(R.drawable.acolade_money) :
                 getResources().getDrawable(R.drawable.acolade_broke));
+    }
+
+    private void setSummary(SummaryModel summaryModel) {
+        timeTxt.setText("You finished in "+summaryModel.getTime());
+        heartsTxt.setText(summaryModel.getHearts() + " hearts lost");
+        coinsTxt.setText(summaryModel.getCoins() + " coins collected");
+        hazardsTxt.setText(summaryModel.getHazards() + " hazards avoided");
+        distanceTxt.setText(summaryModel.getDistance() + "km travelled");
     }
 
     @Override
