@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.bathhack.models.SummaryModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,6 +42,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.GeoPoint;
 
 import static com.android.bathhack.util.Constants.ERROR_DIALOG_REQUEST;
+import static com.android.bathhack.util.Constants.EXTRA_SUMMARY_MODEL;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
@@ -108,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showSummary() {
         Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
+        SummaryModel summaryModel = new SummaryModel(3, 5, 7, 1, 29000);
+        intent.putExtra(EXTRA_SUMMARY_MODEL, summaryModel);
+        startActivity(intent);
         startActivity(intent);
     }
 

@@ -31,6 +31,10 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<ImageView> acoladeImgs;
     private ConstraintLayout popupCont, mainCont;
 
+    private SummaryModel summaryModel;
+    private ImageView popupImg;
+    private TextView popupTxt;
+
     // Variables
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -61,7 +65,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
 
         timeTxt = findViewById(R.id.summary_time_text);
         heartsTxt = findViewById(R.id.summary_hearts_text);
-        coinsTxt = findViewById(R.id.coin_text);
+        coinsTxt = findViewById(R.id.summary_coins_text);
         hazardsTxt = findViewById(R.id.summary_hazards_text);
         distanceTxt = findViewById(R.id.summary_distance_text);
 
@@ -81,6 +85,8 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
 
         popupCont = findViewById(R.id.summary_popup_container);
         mainCont = findViewById(R.id.summary_main_container);
+        popupImg = findViewById(R.id.summary_popup_image);
+        popupTxt = findViewById(R.id.summary_popup_text);
     }
 
     private void setListeners() {
@@ -96,6 +102,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void setAcolades(SummaryModel summaryModel) {
+        this.summaryModel = summaryModel;
         //TODO use method when calling this activity from playActivity
         //Speed
         acoladeImgs.get(0).setBackground((summaryModel.getTime() > 30000) ?
@@ -111,6 +118,10 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
         acoladeImgs.get(2).setBackground((summaryModel.getHearts() > 3) ?
                 getResources().getDrawable(R.drawable.acolade_money) :
                 getResources().getDrawable(R.drawable.acolade_broke));
+
+        //Placeholders]
+        for (int i = 3; i < 5; i++) acoladeImgs.get(i).setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
+
     }
 
     private void setSummary(SummaryModel summaryModel) {
@@ -144,26 +155,35 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.acolade_cont1:
                 //TODO show popup for acolade
                 togglePopup();
+                popupTxt.setText(((summaryModel.getTime() > 30000) ? "You're fast! " : "You can do better than that! ")+
+                        "You finished the round in "+summaryModel.getTime());
                 break;
             case R.id.acolade_cont2:
                 //TODO show popup for acolade
                 togglePopup();
+                popupTxt.setText(((summaryModel.getCoins() > 15) ? "You're rich! " : "Not the wealthiest, but still the happiest! ")+
+                        "You got "+summaryModel.getCoins() + " coins that round");
                 break;
             case R.id.acolade_cont3:
                 //TODO show popup for acolade
                 togglePopup();
+                popupTxt.setText(((summaryModel.getHearts() < 3 ? "Health is wealth! " : "Living life on the edge! ")+
+                        "You lost "+summaryModel.getCoins() + " hearts that round"));
                 break;
             case R.id.acolade_cont4:
                 //TODO show popup for acolade
                 togglePopup();
+                popupTxt.setText("You didn't get any more acolades this time. Better luck next time!");
                 break;
             case R.id.acolade_cont5:
                 //TODO show popup for acolade
                 togglePopup();
+                popupTxt.setText("You didn't get any more acolades this time. Better luck next time!");
                 break;
             case R.id.acolade_cont6:
                 //TODO show popup for acolade
                 togglePopup();
+                popupTxt.setText("You didn't get any more acolades this time. Better luck next time!");
                 break;
 
             case R.id.summary_popup_container:
