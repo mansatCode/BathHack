@@ -44,7 +44,7 @@ import static com.android.bathhack.util.Constants.ERROR_DIALOG_REQUEST;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.android.bathhack.util.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     // Constants
     private static final String TAG = "MainActivity";
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setListeners() {
         startButton.setOnClickListener(this);
         instructionsButton.setOnClickListener(this);
+        instructionsButton.setOnLongClickListener(this);
     }
 
     private void launchGame() {
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showInstructions() {
+        Intent intent = new Intent(MainActivity.this, InstructionsActivity.class);
+        startActivity(intent);
+    }
+
+    private void showSummary() {
         Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
         startActivity(intent);
     }
@@ -137,6 +143,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showInstructions();
                 break;
         }
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        switch (view.getId()) {
+            case R.id.instructions_button:
+                showSummary();
+                return true;
+        }
+
+        return false;
     }
 
     private boolean checkMapServices() {
@@ -239,5 +256,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
 }
