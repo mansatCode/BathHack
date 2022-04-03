@@ -1,6 +1,6 @@
 # BathHack
 
-## Inspiration
+### Inspiration
 Our aim was to gamify everyday activity to encourage users to stay fit & healthy.
 
 ### What it does
