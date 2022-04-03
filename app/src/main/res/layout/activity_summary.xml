@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,501 +7,579 @@
     android:background="@drawable/background"
     tools:context=".SummaryActivity">
 
-    <!--    Heading    -->
-    <TextView
-        android:id="@+id/summary_main_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/summary_heading"
-        android:textSize="40sp"
-        android:textColor="@color/dark_white"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="60dp"/>
-
-    <!--    Summary    -->
+    <!--    Popup Window    -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/summary_container"
-        android:layout_width="180dp"
-        android:layout_height="280dp"
-        android:maxHeight="600dp"
-        android:maxWidth="400dp"
-        android:background="@drawable/summary_box"
-        android:elevation="10dp"
+        android:id="@+id/summary_popup_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/summary_popup_background"
+        android:clickable="true"
+        android:visibility="gone">
 
-        app:layout_constraintTop_toBottomOf="@id/summary_main_heading"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/acoldates_container"
-        app:layout_constraintBottom_toTopOf="@id/summary_image"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:id="@+id/summary_heading"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/summary_summary_heading"
-            android:textColor="@color/dark_blue"
-            android:textSize="25sp"
+            android:background="@drawable/summary_box"
 
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp"/>
-
-        <!--        Time        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sum_time_container"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:background="@drawable/box_with_outline"
-            app:layout_constraintTop_toBottomOf="@id/summary_heading"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/sum_hearts_container">
+            app:layout_constraintRight_toRightOf="parent">
 
             <ImageView
-                android:id="@+id/sum_timer_icon"
+                android:id="@+id/summary_popup_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/sum_timer"
-                android:contentDescription="Timer Icon"
+                android:background="@drawable/acolade_rocket"
 
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"/>
+                app:layout_constraintRight_toLeftOf="@id/summary_popup_text"
+                android:layout_margin="30dp"/>
 
             <TextView
+                android:id="@+id/summary_popup_text"
                 android:layout_width="wrap_content"
+                android:maxWidth="250dp"
                 android:layout_height="wrap_content"
-                android:text="@string/summary_time_text"
-                android:textColor="@color/black"
-                android:textSize="11sp"
+                android:text="You completed the challenge in 30 seconds!"
 
+                app:layout_constraintLeft_toRightOf="@id/summary_popup_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/sum_timer_icon"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="30dp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        Hearts        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sum_hearts_container"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:background="@drawable/box_with_outline"
-            app:layout_constraintTop_toBottomOf="@id/sum_time_container"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/sum_coin_container">
-
-            <ImageView
-                android:id="@+id/sum_heart_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sum_heart"
-                android:contentDescription="Hearts Icon"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/summary_hearts_text"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/sum_heart_icon"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        Coins        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sum_coin_container"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:background="@drawable/box_with_outline"
-            app:layout_constraintTop_toBottomOf="@id/sum_hearts_container"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/sum_hazard_container">
-
-            <ImageView
-                android:id="@+id/sum_coin_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sum_coin"
-                android:contentDescription="Coin Icon"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/summary_coins_text"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/sum_coin_icon"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        Hazard        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sum_hazard_container"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:background="@drawable/box_with_outline"
-            app:layout_constraintTop_toBottomOf="@id/sum_coin_container"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/sum_distance_container">
-            <ImageView
-                android:id="@+id/sum_hazard_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sum_hazard"
-                android:contentDescription="Hazard Icon"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/summary_hazard_text"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/sum_hazard_icon"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        Distance        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sum_distance_container"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:background="@drawable/box_with_outline"
-            app:layout_constraintTop_toBottomOf="@id/sum_hazard_container"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <ImageView
-                android:id="@+id/sum_distance_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sum_distance"
-                android:contentDescription="Distance Icon"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/summary_distance_text"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/sum_distance_icon"
-                app:layout_constraintRight_toRightOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--    Acoldates    -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/acoldates_container"
-        android:layout_width="200dp"
-        android:layout_height="305dp"
-        android:background="@drawable/acolades_rectangle"
-        android:maxHeight="400dp"
-        android:maxWidth="400dp"
+        android:id="@+id/summary_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:visibility="visible">
 
-        app:layout_constraintTop_toBottomOf="@id/summary_main_heading"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/summary_container"
-        app:layout_constraintBottom_toTopOf="@id/summary_image">
-
+        <!--    Heading    -->
         <TextView
-            android:id="@+id/acolades_title"
+            android:id="@+id/summary_main_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/summary_acolades_heading"
-            android:textSize="25sp"
-            android:textColor="@color/dark_blue"
+            android:text="@string/summary_heading"
+            android:textSize="40sp"
+            android:textColor="@color/dark_white"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="60dp"/>
+
+        <!--    Summary    -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/summary_container"
+            android:layout_width="180dp"
+            android:layout_height="280dp"
+            android:maxHeight="600dp"
+            android:maxWidth="400dp"
+            android:background="@drawable/summary_box"
+            android:elevation="10dp"
+
+            app:layout_constraintTop_toBottomOf="@id/summary_main_heading"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/acoldates_container"
+            app:layout_constraintBottom_toTopOf="@id/summary_image"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/summary_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/summary_summary_heading"
+                android:textColor="@color/dark_blue"
+                android:textSize="25sp"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"/>
+
+            <!--        Time        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sum_time_container"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/box_with_outline"
+                app:layout_constraintTop_toBottomOf="@id/summary_heading"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sum_hearts_container">
+
+                <ImageView
+                    android:id="@+id/sum_timer_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sum_timer"
+                    android:contentDescription="Timer Icon"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/summary_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary_time_text"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/sum_timer_icon"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Hearts        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sum_hearts_container"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/box_with_outline"
+                app:layout_constraintTop_toBottomOf="@id/sum_time_container"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sum_coin_container">
+
+                <ImageView
+                    android:id="@+id/sum_heart_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sum_heart"
+                    android:contentDescription="Hearts Icon"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/summary_hearts_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary_hearts_text"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/sum_heart_icon"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Coins        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sum_coin_container"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/box_with_outline"
+                app:layout_constraintTop_toBottomOf="@id/sum_hearts_container"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sum_hazard_container">
+
+                <ImageView
+                    android:id="@+id/sum_coin_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sum_coin"
+                    android:contentDescription="Coin Icon"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/summary_coins_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary_coins_text"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/sum_coin_icon"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Hazard        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sum_hazard_container"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/box_with_outline"
+                app:layout_constraintTop_toBottomOf="@id/sum_coin_container"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sum_distance_container">
+                <ImageView
+                    android:id="@+id/sum_hazard_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sum_hazard"
+                    android:contentDescription="Hazard Icon"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/summary_hazards_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary_hazard_text"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/sum_hazard_icon"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Distance        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sum_distance_container"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/box_with_outline"
+                app:layout_constraintTop_toBottomOf="@id/sum_hazard_container"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/sum_distance_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sum_distance"
+                    android:contentDescription="Distance Icon"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/summary_distance_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary_distance_text"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/sum_distance_icon"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--    Acoldates    -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/acoldates_container"
+            android:layout_width="200dp"
+            android:layout_height="305dp"
+            android:background="@drawable/acolades_rectangle"
+            android:maxHeight="400dp"
+            android:maxWidth="400dp"
+
+            app:layout_constraintTop_toBottomOf="@id/summary_main_heading"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/summary_container"
+            app:layout_constraintBottom_toTopOf="@id/summary_image">
+
+            <TextView
+                android:id="@+id/acolades_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/summary_acolades_heading"
+                android:textSize="25sp"
+                android:textColor="@color/dark_blue"
+                android:layout_marginTop="15dp"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <!--        Acolade 1        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acolade_cont1"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="18dp"
+                android:background="@drawable/summary_box"
+                android:clickable="true"
+
+                android:elevation="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/acolade_cont3"
+                app:layout_constraintEnd_toStartOf="@+id/acolade_cont2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/acolades_title">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/acolade_rocket"
+                    android:contentDescription="rocket icon"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Acolade 2        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acolade_cont2"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:clickable="true"
+
+                android:background="@drawable/summary_box"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toTopOf="@id/acolade_cont4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/acolade_cont1"
+                app:layout_constraintTop_toBottomOf="@id/acolades_title">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/acolade_rocket"
+                    android:contentDescription="acolade icon"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Acolade 3        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acolade_cont3"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="18dp"
+                android:background="@drawable/summary_box"
+                android:clickable="true"
+
+                android:elevation="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/acolade_cont5"
+                app:layout_constraintEnd_toStartOf="@+id/acolade_cont4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/acolade_cont1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/acolade_rocket"
+                    android:contentDescription="rocket icon"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Acolade 4        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acolade_cont4"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:clickable="true"
+
+                android:background="@drawable/summary_box"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toTopOf="@id/acolade_cont6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/acolade_cont3"
+                app:layout_constraintTop_toBottomOf="@id/acolade_cont2">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/acolade_rocket"
+                    android:contentDescription="rocket icon"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Acolade 5        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acolade_cont5"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+
+                android:background="@drawable/summary_box"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/acolade_cont6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/acolade_cont3">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/acolade_rocket"
+                    android:contentDescription="rocket icon"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        Acolade 6        -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acolade_cont6"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:clickable="true"
+
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/summary_box"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/acolade_cont5"
+                app:layout_constraintTop_toBottomOf="@id/acolade_cont4">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/acolade_rocket"
+                    android:contentDescription="rocket icon"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/summary_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_summary_image"
+            android:contentDescription="celebration"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="35dp"
+            android:layout_marginBottom="35dp"/>
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="3"
+            android:columnCount="1"
+
+            app:layout_constraintRight_toRightOf="@id/acoldates_container"
+            app:layout_constraintTop_toBottomOf="@id/summary_container"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp">
 
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <!--        Acolade 1        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/acolade_cont1"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:elevation="10dp"
-            android:background="@drawable/summary_box"
-
-            app:layout_constraintTop_toBottomOf="@id/acolades_title"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/acolade_cont2"
-            app:layout_constraintBottom_toTopOf="@id/acolade_cont3"
-            android:layout_marginStart="18dp">
-
-            <ImageView
+            <!--        Share        -->
+            <FrameLayout
+                android:id="@+id/summary_share_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/acolade_rocket"
-                android:contentDescription="rocket icon"
+                android:background="@drawable/box_with_outline"
+                android:clickable="true">
 
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/summary_share"
+                    android:contentDescription="share"
+                    android:layout_margin="13dp"/>
+            </FrameLayout>
 
-        <!--        Acolade 2        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/acolade_cont2"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:elevation="10dp"
-            android:background="@drawable/summary_box"
-
-            app:layout_constraintTop_toBottomOf="@id/acolades_title"
-            app:layout_constraintLeft_toRightOf="@id/acolade_cont1"
-            app:layout_constraintBottom_toTopOf="@id/acolade_cont4"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp">
-
-            <ImageView
+            <!--        Replay        -->
+            <FrameLayout
+                android:id="@+id/summary_replay_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/acolade_rocket"
-                android:contentDescription="acolade icon"
+                android:background="@drawable/box_with_outline"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="11dp"
+                android:clickable="true">
 
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/summary_reload"
+                    android:contentDescription="replay"
+                    android:layout_margin="13dp"/>
+            </FrameLayout>
 
-        <!--        Acolade 3        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/acolade_cont3"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:elevation="10dp"
-            android:background="@drawable/summary_box"
-
-            app:layout_constraintTop_toBottomOf="@id/acolade_cont1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/acolade_cont4"
-            app:layout_constraintBottom_toTopOf="@id/acolade_cont5"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="18dp">
-
-            <ImageView
+            <!--        Home        -->
+            <FrameLayout
+                android:id="@+id/summary_home_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/acolade_rocket"
-                android:contentDescription="rocket icon"
+                android:background="@drawable/box_with_outline"
+                android:clickable="true">
 
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/summary_home"
+                    android:contentDescription="home"
+                    android:layout_margin="13dp"/>
+            </FrameLayout>
 
-        <!--        Acolade 4        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/acolade_cont4"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:elevation="10dp"
-            android:background="@drawable/summary_box"
 
-            app:layout_constraintTop_toBottomOf="@id/acolade_cont2"
-            app:layout_constraintLeft_toRightOf="@id/acolade_cont3"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/acolade_cont6"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/acolade_rocket"
-                android:contentDescription="rocket icon"
-
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        Acolade 5        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/acolade_cont5"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:elevation="10dp"
-            android:background="@drawable/summary_box"
-
-            app:layout_constraintTop_toBottomOf="@id/acolade_cont3"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/acolade_cont6"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="18dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/acolade_rocket"
-                android:contentDescription="rocket icon"
-
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        Acolade 6        -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/acolade_cont6"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:elevation="10dp"
-            android:background="@drawable/summary_box"
-
-            app:layout_constraintTop_toBottomOf="@id/acolade_cont4"
-            app:layout_constraintLeft_toRightOf="@id/acolade_cont5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/acolade_rocket"
-                android:contentDescription="rocket icon"
-
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </GridLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/summary_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_summary_image"
-        android:contentDescription="celebration"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="35dp"
-        android:layout_marginBottom="35dp"/>
-
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:rowCount="3"
-        android:columnCount="1"
-        
-        app:layout_constraintRight_toRightOf="@id/acoldates_container"
-        app:layout_constraintTop_toBottomOf="@id/summary_container"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp">
-
-        <!--        Share        -->
-        <FrameLayout
-            android:id="@+id/summary_share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_with_outline">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/summary_share"
-                android:contentDescription="share"
-                android:layout_margin="13dp"/>
-        </FrameLayout>
-
-        <!--        Replay        -->
-        <FrameLayout
-            android:id="@+id/summary_replay_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_with_outline"
-            android:layout_marginTop="11dp"
-            android:layout_marginBottom="11dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/summary_reload"
-                android:contentDescription="replay" 
-                android:layout_margin="13dp"/>
-        </FrameLayout>
-
-        <!--        Home        -->
-        <FrameLayout
-            android:id="@+id/summary_home_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_with_outline"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/summary_home"
-                android:contentDescription="home"
-                android:layout_margin="13dp"/>
-        </FrameLayout>
 
 
-    </GridLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
