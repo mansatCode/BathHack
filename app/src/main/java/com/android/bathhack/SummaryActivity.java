@@ -125,11 +125,24 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setSummary(SummaryModel summaryModel) {
-        timeTxt.setText("You finished in "+summaryModel.getTime());
+        timeTxt.setText("You finished in "+getTimeFormatted(summaryModel.getTime()));
         heartsTxt.setText(summaryModel.getHearts() + " hearts lost");
         coinsTxt.setText(summaryModel.getCoins() + " coins collected");
         hazardsTxt.setText(summaryModel.getHazards() + " hazards avoided");
         distanceTxt.setText(summaryModel.getDistance() + "m travelled");
+    }
+
+    private String getTimeFormatted(long seconds) {
+        int hours = (int) seconds / 3600;
+        int minutes = (int) (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return new StringBuilder(hours)
+                .append((hours < 1) ? "" : ":")
+                .append(minutes)
+                .append(":")
+                .append(seconds)
+                .toString();
     }
 
     @Override
@@ -156,7 +169,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
                 //TODO show popup for acolade
                 togglePopup();
                 popupTxt.setText(((summaryModel.getTime() > 30000) ? "You're fast! " : "You can do better than that! ")+
-                        "You finished the round in "+summaryModel.getTime());
+                        "You finished the round in "+getTimeFormatted(summaryModel.getTime()));
                 popupImg.setBackground((summaryModel.getTime() > 30000) ?
                         getResources().getDrawable(R.drawable.acolade_rocket) :
                         getResources().getDrawable(R.drawable.acolade_snail));
