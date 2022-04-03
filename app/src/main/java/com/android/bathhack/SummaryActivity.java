@@ -116,8 +116,8 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
 
         //Hearts
         acoladeImgs.get(2).setBackground((summaryModel.getHearts() > 3) ?
-                getResources().getDrawable(R.drawable.acolade_heart_attack) :
-                getResources().getDrawable(R.drawable.acolade_healthy));
+                getResources().getDrawable(R.drawable.acolade_healthy) :
+                getResources().getDrawable(R.drawable.acolade_heart_attack));
 
         //Placeholders]
         for (int i = 3; i < 6; i++) acoladeImgs.get(i).setBackground(getResources().getDrawable(R.drawable.acolade_tumbleweed));
@@ -186,11 +186,11 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.acolade_cont3:
                 //TODO show popup for acolade
                 togglePopup();
-                popupTxt.setText(((summaryModel.getHearts() < 3 ? "Health is wealth! " : "Living life on the edge! ")+
+                popupTxt.setText(((summaryModel.getHearts() > 3 ? "Health is wealth! " : "Living life on the edge! ")+
                         "You lost "+summaryModel.getCoins() + " hearts that round"));
                 popupImg.setBackground((summaryModel.getHearts() > 3) ?
-                        getResources().getDrawable(R.drawable.acolade_heart_attack) :
-                        getResources().getDrawable(R.drawable.acolade_healthy));
+                        getResources().getDrawable(R.drawable.acolade_healthy) :
+                        getResources().getDrawable(R.drawable.acolade_heart_attack));
                 break;
             case R.id.acolade_cont4:
                 //TODO show popup for acolade
