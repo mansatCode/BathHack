@@ -20,4 +20,5 @@
     <string name="summary_hazard_text">3 hazards avoided</string>
     <string name="summary_distance_text">0.45km travelled</string>
     <string name="summary_acolades_heading">Acolades</string>
+    <string name="summary_coin_text">Collect coins based on your performancec</string>
 </resources>
