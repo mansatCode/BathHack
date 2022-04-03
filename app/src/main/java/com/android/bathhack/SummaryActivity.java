@@ -65,7 +65,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
 
         timeTxt = findViewById(R.id.summary_time_text);
         heartsTxt = findViewById(R.id.summary_hearts_text);
-        coinsTxt = findViewById(R.id.coin_text);
+        coinsTxt = findViewById(R.id.summary_coins_text);
         hazardsTxt = findViewById(R.id.summary_hazards_text);
         distanceTxt = findViewById(R.id.summary_distance_text);
 
