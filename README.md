@@ -30,3 +30,4 @@ The app chooses a random nearby location as a destination. Users must reach the 
 ### Screenshots
 
 ![](https://github.com/mansatCode/BathHack/tree/master/Screenshots/Figma_design.png)
+![](/mansatCode/BathHack/tree/master/Screenshots/Figma_design.png?raw=true "Optional Title")
