@@ -9,7 +9,8 @@
         android:id="@+id/activity_play_mv_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:minHeight="600dp"
+        android:minWidth="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

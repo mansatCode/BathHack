@@ -61,9 +61,11 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest mLocationRequest;
     private GeoApiContext mGeoApiContext = null;
     private boolean cameraSet = false;
-    float results[] = new float[1];
+    private float results[] = new float[1];
 
     private Circle mDestinationCircle;
+    private float[] mDistanceTravelled = new float[1];
+    private Marker mStartingMarker;
     private Marker mDestinationMarker;
 
     private GoogleMap.OnMapLoadedCallback mMapLoadedCallback = new GoogleMap.OnMapLoadedCallback() {
@@ -84,6 +86,9 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
             mUserPosition.setLatitude(location.getLatitude());
             if (!cameraSet) {
                 setCameraView();
+                Location.distanceBetween(mUserPosition.getLatitude(),
+                        mUserPosition.getLongitude(), mDestinationCircle.getCenter().latitude,
+                        mDestinationCircle.getCenter().longitude, mDistanceTravelled);
                 cameraSet = true;
                 return;
             }
@@ -94,6 +99,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             Log.d(TAG, "onLocationResult: " + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
             Log.d(TAG, "onLocationResult: " + String.valueOf(results[0]));
+
             if (results[0] > mDestinationCircle.getRadius()) {
                 Log.d(TAG, "onLocationResult: Outside circle");
             }else if (results[0] < mDestinationCircle.getRadius()) {
@@ -112,7 +118,8 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void endGame(long time) {
         Intent i = new Intent(PlayActivity.this, SummaryActivity.class);
-        SummaryModel summaryModel = new SummaryModel(3, 5, 7, 1, time);
+        SummaryModel summaryModel = new SummaryModel(3, 5, 7, mDistanceTravelled[0], time);
+        Log.d(TAG, "endGame: ");
         i.putExtra(EXTRA_SUMMARY_MODEL, summaryModel);
         startActivity(i);
         finish();
@@ -149,12 +156,12 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void insertDummyData() {
-//        mLocationList.add(new LocationModel("Sports Training Village", 51.377688515670485, -2.324575367443366));
-//        mLocationList.add(new LocationModel("The Fresh Co-op", 51.38008470812914, -2.3296487592296486));
-//        mLocationList.add(new LocationModel("Polden", 51.38049929698658, -2.3326429905222605));
-//        mLocationList.add(new LocationModel("West Car Park", 51.379773368108445, -2.332843823219117));
-//        mLocationList.add(new LocationModel("Eastwood", 51.38118940103502, -2.3242811762256546));
-//        mLocationList.add(new LocationModel("Lake", 51.378361739039256, -2.3282803023977654));
+        mLocationList.add(new LocationModel("Sports Training Village", 51.377688515670485, -2.324575367443366));
+        mLocationList.add(new LocationModel("The Fresh Co-op", 51.38008470812914, -2.3296487592296486));
+        mLocationList.add(new LocationModel("Polden", 51.38049929698658, -2.3326429905222605));
+        mLocationList.add(new LocationModel("West Car Park", 51.379773368108445, -2.332843823219117));
+        mLocationList.add(new LocationModel("Eastwood", 51.38118940103502, -2.3242811762256546));
+        mLocationList.add(new LocationModel("Lake", 51.378361739039256, -2.3282803023977654));
         mLocationList.add(new LocationModel("Westwood", 51.38130743609304,  -2.329858939953267));
     }
 
@@ -247,8 +254,8 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mDestinationCircle = map.addCircle(new CircleOptions()
                 .center(new LatLng(mDestination.getLatitude(),  mDestination.getLongitude()))
-                .radius(25)
-                //TODO - change to 5
+                .radius(10)
+                .visible(false)
         );
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
