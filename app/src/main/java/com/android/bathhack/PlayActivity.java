@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -65,10 +67,13 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Circle mDestinationCircle;
     private float[] mDistanceTravelled = new float[1];
+    private float[] mDistanceToHazard1 = new float[1];
     private Marker mStartingMarker;
     private Marker mDestinationMarker;
+    private Marker mHazardMarker1, mHazardMarker2;
+    private Circle mHazardCircle1, mHazardCircle2;
 
-    private int coins, hearts;
+    private int coins, hearts, hazards = 0;
 
     private GoogleMap.OnMapLoadedCallback mMapLoadedCallback = new GoogleMap.OnMapLoadedCallback() {
         @Override
@@ -99,12 +104,25 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
                     mUserPosition.getLongitude(), mDestinationCircle.getCenter().latitude,
                     mDestinationCircle.getCenter().longitude, results);
 
+            Location.distanceBetween(mUserPosition.getLatitude(),
+                    mUserPosition.getLongitude(), mHazardCircle1.getCenter().latitude,
+                    mHazardCircle1.getCenter().longitude, mDistanceToHazard1);
+
+            if (mDistanceToHazard1[0] < mHazardCircle1.getRadius()) {
+                Log.d(TAG, "onLocationResult: dist " + mDistanceToHazard1[0]);
+                Log.d(TAG, "onLocationResult: inside hazard, lose life");
+                Toast.makeText(PlayActivity.this, "Escape the hazard area!", Toast.LENGTH_SHORT).show();
+                hearts--;
+                hazards++;
+                tv_hearts.setText(Integer.toString(hearts));
+            }
+
             Log.d(TAG, "onLocationResult: " + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
             Log.d(TAG, "onLocationResult: " + String.valueOf(results[0]));
 
             if (results[0] > mDestinationCircle.getRadius()) {
                 Log.d(TAG, "onLocationResult: Outside circle");
-            }else if (results[0] < mDestinationCircle.getRadius()) {
+            } else if (results[0] < mDestinationCircle.getRadius()) {
                 Log.d(TAG, "onLocationResult: Inside circle");
                 stopLocationUpdates();
                 pauseChronometer();
@@ -120,7 +138,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void endGame(long time) {
         Intent i = new Intent(PlayActivity.this, SummaryActivity.class);
-        SummaryModel summaryModel = new SummaryModel(3, 5, 7, mDistanceTravelled[0], time);
+        SummaryModel summaryModel = new SummaryModel(hearts, coins, hazards, mDistanceTravelled[0], time);
         Log.d(TAG, "endGame: ");
         i.putExtra(EXTRA_SUMMARY_MODEL, summaryModel);
         startActivity(i);
@@ -164,7 +182,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationList.add(new LocationModel("West Car Park", 51.379773368108445, -2.332843823219117));
         mLocationList.add(new LocationModel("Eastwood", 51.38118940103502, -2.3242811762256546));
         mLocationList.add(new LocationModel("Lake", 51.378361739039256, -2.3282803023977654));
-        mLocationList.add(new LocationModel("Westwood", 51.38130743609304,  -2.329858939953267));
+        mLocationList.add(new LocationModel("Westwood", 51.38130743609304, -2.329858939953267));
     }
 
     private void createLocationRequest() {
@@ -258,7 +276,11 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDestinationMarker = map.addMarker(new MarkerOptions()
                 .position(new LatLng(mDestination.getLatitude(), mDestination.getLongitude()))
                 .title(mDestination.getLocationName()));
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        map.setMyLocationEnabled(true);
 
         mDestinationCircle = map.addCircle(new CircleOptions()
                 .center(new LatLng(mDestination.getLatitude(),  mDestination.getLongitude()))
@@ -273,15 +295,45 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
 
-        map.setMyLocationEnabled(true);
+
         mGoogleMap = map;
 
         mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
                 Log.d(TAG, "onMapLoaded: Map loaded");
+                Log.d(TAG, "onMapLoaded: " + mUserPosition.getLatitude());
+                Log.d(TAG, "onMapLoaded: " + mUserPosition.getLongitude());
+                Random r = new Random();
+
+                double minLat = Math.min(mUserPosition.getLatitude(), mDestination.getLatitude());
+                double maxLat = Math.max(mUserPosition.getLatitude(), mDestination.getLatitude());
+                double randomLat = minLat + (maxLat-minLat) * r.nextDouble();
+
+                double minLong = Math.min(mUserPosition.getLongitude(), mDestination.getLongitude());
+                double maxLong = Math.max(mUserPosition.getLongitude(), mDestination.getLongitude());
+                double randomLong = minLong + (maxLong-minLong) * r.nextDouble();
+
+                Log.d(TAG, "onMapLoaded: random coords " + randomLat + " " + randomLong);
+
+                mHazardMarker1 = map.addMarker(new MarkerOptions()
+                        .position(new LatLng( randomLat,  randomLong))
+                        .title("Trap")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                );
+
+                mHazardCircle1 = map.addCircle(new CircleOptions()
+                        .center(new LatLng(randomLat,  randomLong))
+                        .radius(25)
+                        .visible(true)
+                        .strokeColor(R.color.yellow)
+                );
+
+
             }
         });
+
+
 
     }
 

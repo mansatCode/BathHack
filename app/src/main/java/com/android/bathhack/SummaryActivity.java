@@ -125,7 +125,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setSummary(SummaryModel summaryModel) {
-        timeTxt.setText("You finished in "+getTimeFormatted(summaryModel.getTime()));
+        timeTxt.setText("You finished in "+ getTimeFormatted(summaryModel.getTime()));
         heartsTxt.setText(summaryModel.getHearts() + " hearts lost");
         coinsTxt.setText(summaryModel.getCoins() + " coins collected");
         hazardsTxt.setText(summaryModel.getHazards() + " hazards avoided");
@@ -135,13 +135,13 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     private String getTimeFormatted(long seconds) {
         int hours = (int) seconds / 3600;
         int minutes = (int) (seconds % 3600) / 60;
-        seconds = seconds % 60;
+        int newSeconds = (int)seconds % 60;
 
         return new StringBuilder(hours)
                 .append((hours < 1) ? "" : ":")
                 .append(minutes)
                 .append(":")
-                .append(seconds)
+                .append(newSeconds)
                 .toString();
     }
 
