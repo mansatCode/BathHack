@@ -68,6 +68,8 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker mStartingMarker;
     private Marker mDestinationMarker;
 
+    private int coins, hearts;
+
     private GoogleMap.OnMapLoadedCallback mMapLoadedCallback = new GoogleMap.OnMapLoadedCallback() {
         @Override
         public void onMapLoaded() {
@@ -190,6 +192,12 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         tv_coins = findViewById(R.id.coin_text);
         tv_hearts = findViewById(R.id.heart_text);
         mChronometer = findViewById(R.id.chronometer);
+
+        coins = new Random().nextInt(50);
+        tv_coins.setText(Integer.toString(coins));
+
+        hearts = 5;
+        tv_hearts.setText(Integer.toString(hearts));
     }
 
     private void initGoogleMap(Bundle savedInstanceState) {
