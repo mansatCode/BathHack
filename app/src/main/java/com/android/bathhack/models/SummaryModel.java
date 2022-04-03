@@ -4,10 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SummaryModel implements Parcelable {
-    private int hearts, coins, hazards, distance;
+    private int hearts, coins, hazards;
+    private double distance;
     private long time;
 
-    public SummaryModel(int hearts, int coins, int hazards, int distance, long time) {
+    public SummaryModel(int hearts, int coins, int hazards, double distance, long time) {
         this.hearts = hearts;
         this.coins = coins;
         this.hazards = hazards;
@@ -47,7 +48,7 @@ public class SummaryModel implements Parcelable {
         return hazards;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
@@ -65,7 +66,7 @@ public class SummaryModel implements Parcelable {
         parcel.writeInt(hearts);
         parcel.writeInt(coins);
         parcel.writeInt(hazards);
-        parcel.writeInt(distance);
+        parcel.writeDouble(distance);
         parcel.writeLong(time);
     }
 }
