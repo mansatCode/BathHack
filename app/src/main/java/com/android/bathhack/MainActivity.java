@@ -85,28 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    private void getLastKnownLocation() {
-//        Log.d(TAG, "getLastKnownLocation: called");
-//
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            return;
-//        }
-//        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Location> task) {
-//                if (task.isSuccessful()) {
-//                    Location location = task.getResult();
-//                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-//                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLatitude());
-//                    Log.d(TAG, "onComplete: latitude " + geoPoint.getLongitude());
-//                }
-//            }
-//        });
-//    }
-
     private void initUI() {
         startButton = findViewById(R.id.start_game);
         instructionsButton = findViewById(R.id.instructions_button);

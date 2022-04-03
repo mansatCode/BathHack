@@ -1,6 +1,9 @@
 package com.android.bathhack.models;
 
-public class SummaryModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SummaryModel implements Parcelable {
     private int hearts, coins, hazards, distance;
     private long time;
 
@@ -11,6 +14,26 @@ public class SummaryModel {
         this.distance = distance;
         this.time = time;
     }
+
+    protected SummaryModel(Parcel in) {
+        hearts = in.readInt();
+        coins = in.readInt();
+        hazards = in.readInt();
+        distance = in.readInt();
+        time = in.readLong();
+    }
+
+    public static final Creator<SummaryModel> CREATOR = new Creator<SummaryModel>() {
+        @Override
+        public SummaryModel createFromParcel(Parcel in) {
+            return new SummaryModel(in);
+        }
+
+        @Override
+        public SummaryModel[] newArray(int size) {
+            return new SummaryModel[size];
+        }
+    };
 
     public int getHearts() {
         return hearts;
@@ -32,4 +55,17 @@ public class SummaryModel {
         return time;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(hearts);
+        parcel.writeInt(coins);
+        parcel.writeInt(hazards);
+        parcel.writeInt(distance);
+        parcel.writeLong(time);
+    }
 }

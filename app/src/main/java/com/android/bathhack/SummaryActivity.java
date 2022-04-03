@@ -17,6 +17,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.ArrayList;
 
+import static com.android.bathhack.util.Constants.EXTRA_SUMMARY_MODEL;
+
 public class SummaryActivity extends AppCompatActivity implements View.OnClickListener{
 
     // Constants
@@ -44,8 +46,12 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
+        Intent received = getIntent();
+        SummaryModel summaryModel = received.getParcelableExtra(EXTRA_SUMMARY_MODEL);
+
         initUI();
         setListeners();
+        setAcolades(summaryModel);
     }
 
     private void initUI() {
@@ -93,17 +99,17 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
         this.summaryModel = summaryModel;
         //TODO use method when calling this activity from playActivity
         //Speed
-        acoladeImgs.get(0).setImageDrawable((summaryModel.getTime() > 30000) ?
+        acoladeImgs.get(0).setBackground((summaryModel.getTime() > 30000) ?
                     getResources().getDrawable(R.drawable.acolade_rocket) :
                     getResources().getDrawable(R.drawable.acolade_snail));
 
         //Coins
-        acoladeImgs.get(1).setImageDrawable((summaryModel.getCoins() > 15) ?
+        acoladeImgs.get(1).setBackground((summaryModel.getCoins() > 15) ?
                 getResources().getDrawable(R.drawable.acolade_money) :
                 getResources().getDrawable(R.drawable.acolade_broke));
 
         //Hearts
-        acoladeImgs.get(2).setImageDrawable((summaryModel.getHearts() > 3) ?
+        acoladeImgs.get(2).setBackground((summaryModel.getHearts() > 3) ?
                 getResources().getDrawable(R.drawable.acolade_money) :
                 getResources().getDrawable(R.drawable.acolade_broke));
     }

@@ -11,13 +11,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.android.bathhack.models.LocationModel;
+import com.android.bathhack.models.SummaryModel;
 import com.android.bathhack.models.UserModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -28,8 +28,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.GeoApiContext;
 
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.android.bathhack.util.Constants.EXTRA_SUMMARY_MODEL;
 import static com.android.bathhack.util.Constants.MAPVIEW_BUNDLE_KEY;
 
 public class PlayActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -47,7 +51,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private MapView mMapView;
     private GoogleMap mGoogleMap;
-    private TextView popupImage, popupText, coins, hearts;
+    private TextView popupImage, popupText, tv_coins, tv_hearts;
     private Chronometer mChronometer;
 
     // Variables
@@ -57,6 +61,10 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest mLocationRequest;
     private GeoApiContext mGeoApiContext = null;
     private boolean cameraSet = false;
+    float results[] = new float[1];
+
+    private Circle mDestinationCircle;
+    private Marker mDestinationMarker;
 
     private GoogleMap.OnMapLoadedCallback mMapLoadedCallback = new GoogleMap.OnMapLoadedCallback() {
         @Override
@@ -77,15 +85,23 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (!cameraSet) {
                 setCameraView();
                 cameraSet = true;
+                return;
             }
 
+            Location.distanceBetween(mUserPosition.getLatitude(),
+                    mUserPosition.getLongitude(), mDestinationCircle.getCenter().latitude,
+                    mDestinationCircle.getCenter().longitude, results);
+
             Log.d(TAG, "onLocationResult: " + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
-            if (location.getLatitude() - mDestination.getLatitude() < 0.001f && location.getLongitude() - mDestination.getLongitude() < 0.001f) {
+            Log.d(TAG, "onLocationResult: " + String.valueOf(results[0]));
+            if (results[0] > mDestinationCircle.getRadius()) {
+                Log.d(TAG, "onLocationResult: Outside circle");
+            }else if (results[0] < mDestinationCircle.getRadius()) {
+                Log.d(TAG, "onLocationResult: Inside circle");
                 pauseChronometer();
                 long duration = SystemClock.elapsedRealtime() - mChronometer.getBase();
-
                 Log.d(TAG, "onLocationResult: Arrived at destination" + String.valueOf(duration / 1000) + "s");
-                endGame();
+                endGame(duration);
             }
         }
 
@@ -93,8 +109,10 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<LocationModel> mLocationList = new ArrayList<>();
     private LocationModel mDestination;
 
-    private void endGame() {
+    private void endGame(long time) {
         Intent i = new Intent(PlayActivity.this, SummaryActivity.class);
+        SummaryModel summaryModel = new SummaryModel(3, 5, 7, 1, time);
+        i.putExtra(EXTRA_SUMMARY_MODEL, summaryModel);
         startActivity(i);
         finish();
     }
@@ -130,13 +148,13 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void insertDummyData() {
-        mLocationList.add(new LocationModel("Sports Training Village", 51.377688515670485, -2.324575367443366));
-        mLocationList.add(new LocationModel("The Fresh Co-op", 51.38008470812914, -2.3296487592296486));
-        mLocationList.add(new LocationModel("Polden", 51.38049929698658, -2.3326429905222605));
-        mLocationList.add(new LocationModel("West Car Park", 51.379773368108445, -2.332843823219117));
-        mLocationList.add(new LocationModel("Eastwood", 51.38118940103502, -2.3242811762256546));
-        mLocationList.add(new LocationModel("Lake", 51.378361739039256, -2.3282803023977654));
-//        mLocationList.add(new LocationModel("Westwood", 51.38130743609304,  -2.329858939953267));
+//        mLocationList.add(new LocationModel("Sports Training Village", 51.377688515670485, -2.324575367443366));
+//        mLocationList.add(new LocationModel("The Fresh Co-op", 51.38008470812914, -2.3296487592296486));
+//        mLocationList.add(new LocationModel("Polden", 51.38049929698658, -2.3326429905222605));
+//        mLocationList.add(new LocationModel("West Car Park", 51.379773368108445, -2.332843823219117));
+//        mLocationList.add(new LocationModel("Eastwood", 51.38118940103502, -2.3242811762256546));
+//        mLocationList.add(new LocationModel("Lake", 51.378361739039256, -2.3282803023977654));
+        mLocationList.add(new LocationModel("Westwood", 51.38130743609304,  -2.329858939953267));
     }
 
     private void createLocationRequest() {
@@ -153,16 +171,12 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
-    private void stopLocationUpdates() {
-        mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-    }
-
     private void initUI() {
         mMapView = (MapView) findViewById(R.id.activity_play_mv_map);
         popupImage = findViewById(R.id.popup_image);
         popupText = findViewById(R.id.popup_text);
-        coins = findViewById(R.id.coin_text);
-        hearts = findViewById(R.id.heart_text);
+        tv_coins = findViewById(R.id.coin_text);
+        tv_hearts = findViewById(R.id.heart_text);
         mChronometer = findViewById(R.id.chronometer);
     }
 
@@ -214,6 +228,8 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMapView.onSaveInstanceState(mapViewBundle);
     }
 
+
+
     @Override
     public void onMapReady(GoogleMap map) {
         Random random = new Random();
@@ -221,10 +237,15 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "onMapReady: random value: " + i);
         mDestination = mLocationList.get(i);
 
-        map.addMarker(new MarkerOptions()
+        mDestinationMarker = map.addMarker(new MarkerOptions()
                 .position(new LatLng(mDestination.getLatitude(), mDestination.getLongitude()))
                 .title(mDestination.getLocationName()));
 //                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+
+        mDestinationCircle = map.addCircle(new CircleOptions()
+                .center(new LatLng(mDestination.getLatitude(),  mDestination.getLongitude()))
+                .radius(20)
+        );
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
