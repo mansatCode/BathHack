@@ -98,6 +98,7 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d(TAG, "onLocationResult: Outside circle");
             }else if (results[0] < mDestinationCircle.getRadius()) {
                 Log.d(TAG, "onLocationResult: Inside circle");
+                stopLocationUpdates();
                 pauseChronometer();
                 long duration = SystemClock.elapsedRealtime() - mChronometer.getBase();
                 Log.d(TAG, "onLocationResult: Arrived at destination" + String.valueOf(duration / 1000) + "s");
@@ -171,6 +172,10 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
+    private void stopLocationUpdates() {
+        mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+    }
+
     private void initUI() {
         mMapView = (MapView) findViewById(R.id.activity_play_mv_map);
         popupImage = findViewById(R.id.popup_image);
@@ -228,8 +233,6 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMapView.onSaveInstanceState(mapViewBundle);
     }
 
-
-
     @Override
     public void onMapReady(GoogleMap map) {
         Random random = new Random();
@@ -244,7 +247,8 @@ public class PlayActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mDestinationCircle = map.addCircle(new CircleOptions()
                 .center(new LatLng(mDestination.getLatitude(),  mDestination.getLongitude()))
-                .radius(20)
+                .radius(25)
+                //TODO - change to 5
         );
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

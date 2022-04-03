@@ -192,6 +192,11 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private void togglePopup() {
         int popupVis = popupCont.getVisibility();
         int mainVis = mainCont.getVisibility();
