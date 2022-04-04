@@ -27,8 +27,6 @@ The app chooses a random nearby location as a destination. Users must reach the 
 - Multiplayer feature to allow users to compete with each other
 - Animations & sound
 
-### Screenshots
-
-<p float="left">
-  <img src="https://github.com/mansatCode/BathHack/tree/master/Screenshots/Figma_design.png?raw=true" width="200" />
-</p>
+### Screenshots  
+  
+![app mockup](https://raw.github.com/mansatCode/BathHack/master/Screenshots/Figma_design.png "Figma Design")
